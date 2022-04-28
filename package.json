@@ -1,6 +1,6 @@
 {
   "name": "@heroor/tpm",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "TPM is a typings package manager for your npm, pnpm and yarn projects",
   "author": "Bener",
   "license": "MIT",
@@ -12,11 +12,9 @@
     "dev": "tsc -p tsconfig.json -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-    "execa": "^6.1.0",
-    "typescript": "^4.6.3"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "typescript": "^4.6.3",
     "@types/node": "^17.0.26"
   },
   "engines": {
