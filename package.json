@@ -1,6 +1,6 @@
 {
   "name": "@heroor/tpm",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "TPM is a typings package manager for your npm, pnpm and yarn projects",
   "author": "Bener",
   "license": "MIT",
