@@ -43,7 +43,8 @@ tpm - node react
 ```shell
 pnpm install
 pnpm run dev
-pnpm ln .
+pnpm link --global # link to global
+pnpm remove --global @heroor/tpm # remove/unlink tpm
 ```
 
 ## Licence
