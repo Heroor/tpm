@@ -1,45 +1,85 @@
 export type Action = 'install' | 'uninstall'
+export type ManagerName = 'npm' | 'pnpm' | 'yarn' | 'bun'
+
+export type ManagerCommand = {
+  command: string
+  args: string[]
+}
+
 export type Manager = {
-  name: string
-  install: string
-  uninstall: string
-  lockFile: string
+  name: ManagerName
+  lockFiles: string[]
+  commands: Record<Action, ManagerCommand>
 }
 
 const npm: Manager = {
   name: 'npm',
-  install: 'install',
-  uninstall: 'uninstall',
-  lockFile: 'package-lock.json',
+  lockFiles: ['package-lock.json'],
+  commands: {
+    install: {
+      command: 'install',
+      args: ['--save-dev'],
+    },
+    uninstall: {
+      command: 'uninstall',
+      args: [],
+    },
+  },
 }
+
 const pnpm: Manager = {
   name: 'pnpm',
-  install: 'add',
-  uninstall: 'remove',
-  lockFile: 'pnpm-lock.yaml',
+  lockFiles: ['pnpm-lock.yaml'],
+  commands: {
+    install: {
+      command: 'add',
+      args: ['--save-dev'],
+    },
+    uninstall: {
+      command: 'remove',
+      args: [],
+    },
+  },
 }
+
 const yarn: Manager = {
   name: 'yarn',
-  install: 'add',
-  uninstall: 'remove',
-  lockFile: 'yarn.lock',
+  lockFiles: ['yarn.lock'],
+  commands: {
+    install: {
+      command: 'add',
+      args: ['--dev'],
+    },
+    uninstall: {
+      command: 'remove',
+      args: [],
+    },
+  },
 }
-export const managers = [npm, pnpm, yarn]
 
-export const lockFileMap = new Map(
-  managers.map(({ name, lockFile }) => [name, lockFile])
-)
-export const installCmdMap = new Map(
-  managers.map(({ name, install }) => [name, install])
-)
-export const uninstallCmdMap = new Map(
-  managers.map(({ name, uninstall }) => [name, uninstall])
-)
-
-type CMDMap = {
-  [k in Action]: typeof installCmdMap | typeof uninstallCmdMap
+const bun: Manager = {
+  name: 'bun',
+  lockFiles: ['bun.lock', 'bun.lockb'],
+  commands: {
+    install: {
+      command: 'add',
+      args: ['--dev'],
+    },
+    uninstall: {
+      command: 'remove',
+      args: [],
+    },
+  },
 }
-export const cmdMap: CMDMap = {
-  install: installCmdMap,
-  uninstall: uninstallCmdMap,
+
+export const managers = [npm, pnpm, yarn, bun] as const satisfies Manager[]
+
+export function getManagerConfig(name: ManagerName): Manager {
+  const manager = managers.find(manager => manager.name === name)
+
+  if (!manager) {
+    throw new Error(`tpm: unsupported package manager "${name}".`)
+  }
+
+  return manager
 }

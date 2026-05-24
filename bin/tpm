@@ -1,2 +1,8 @@
 #!/usr/bin/env node
-require('../dist/index.js').tpm()
+
+import tpm from '../dist/index.mjs'
+
+tpm().catch(error => {
+  console.error(error instanceof Error ? error.message : error)
+  process.exitCode = 1
+})
